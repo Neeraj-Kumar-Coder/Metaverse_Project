@@ -48,26 +48,30 @@ let marbelBaseColor = textureLoader.load("../textures/ground/Wood_Floor_012_base
 marbelBaseColor.wrapS = THREE.RepeatWrapping;
 marbelBaseColor.wrapT = THREE.RepeatWrapping;
 marbelBaseColor.repeat.set(5, 5);
+
 let marbelNormalMap = textureLoader.load("../textures/ground/Wood_Floor_012_normal.jpg");
 marbelNormalMap.wrapS = THREE.RepeatWrapping;
 marbelNormalMap.wrapT = THREE.RepeatWrapping;
 marbelNormalMap.repeat.set(5, 5);
+
 let marbelHeightMap = textureLoader.load("../textures/ground/Wood_Floor_012_height.png");
 marbelHeightMap.wrapS = THREE.RepeatWrapping;
 marbelHeightMap.wrapT = THREE.RepeatWrapping;
 marbelHeightMap.repeat.set(5, 5);
+
 let marbelRoughnessMap = textureLoader.load("../textures/ground/Wood_Floor_012_roughness.jpg");
 marbelRoughnessMap.wrapS = THREE.RepeatWrapping;
 marbelRoughnessMap.wrapT = THREE.RepeatWrapping;
 marbelRoughnessMap.repeat.set(5, 5);
+
 let marbelAmbientOcclusionMap = textureLoader.load("../textures/ground/Wood_Floor_012_ambientOcclusion.jpg");
 marbelAmbientOcclusionMap.wrapS = THREE.RepeatWrapping;
 marbelAmbientOcclusionMap.wrapT = THREE.RepeatWrapping;
 marbelAmbientOcclusionMap.repeat.set(5, 5);
 
 // Ground of the mall
-let groundHeight = 500;
-let groundWidth = 300;
+let groundHeight = 200;
+let groundWidth = 200;
 let widthSegment = 512;
 let heightSegment = 512;
 let groundGeometry = new THREE.PlaneGeometry(groundWidth, groundHeight, widthSegment, heightSegment);
@@ -91,18 +95,22 @@ let tileBaseColor = textureLoader.load("../textures/wall/Wood_Wall_003_basecolor
 tileBaseColor.wrapS = THREE.RepeatWrapping;
 tileBaseColor.wrapT = THREE.RepeatWrapping;
 tileBaseColor.repeat.set(groundWidth / 10, 1);
+
 let tileNormalMap = textureLoader.load("../textures/wall/Wood_Wall_003_normal.jpg");
 tileNormalMap.wrapS = THREE.RepeatWrapping;
 tileNormalMap.wrapT = THREE.RepeatWrapping;
 tileNormalMap.repeat.set(groundWidth / 10, 1);
+
 let tileHeightMap = textureLoader.load("../textures/wall/Wood_Wall_003_height.png");
 tileHeightMap.wrapS = THREE.RepeatWrapping;
 tileHeightMap.wrapT = THREE.RepeatWrapping;
 tileHeightMap.repeat.set(groundWidth / 10, 1);
+
 let tileRoughnessMap = textureLoader.load("../textures/wall/Wood_Wall_003_roughness.jpg");
 tileRoughnessMap.wrapS = THREE.RepeatWrapping;
 tileRoughnessMap.wrapT = THREE.RepeatWrapping;
 tileRoughnessMap.repeat.set(groundWidth / 10, 1);
+
 let tileAmbientOcclusionMap = textureLoader.load("../textures/wall/Wood_Wall_003_ambientOcclusion.jpg");
 tileAmbientOcclusionMap.wrapS = THREE.RepeatWrapping;
 tileAmbientOcclusionMap.wrapT = THREE.RepeatWrapping;
@@ -111,7 +119,7 @@ tileAmbientOcclusionMap.repeat.set(groundWidth / 10, 1);
 // Wall of the mall
 let wallWidth = groundWidth;
 let wallHeight = 15;
-let wallDepth = 0.3;
+let wallDepth = 1;
 let wallWidthSegment = 512;
 let wallHeightSegment = 512;
 let wallDepthSegment = 512;
@@ -155,6 +163,56 @@ wall_4.position.set(-groundWidth / 2 + wallDepth / 2, wallHeight / 2, 0);
 scene.add(wall_4);
 
 // Shelf
+let shelfWidth = groundHeight / 2;
+let shelfHeight = 10;
+let shelfDepth = 0.2;
+let shelfWidthSegments = 512;
+let shelfHeightSegments = 512;
+let shelfDepthSegments = 512;
+let shelfGeometry = new THREE.BoxGeometry(shelfWidth, shelfHeight, shelfDepth, shelfWidthSegments, shelfHeightSegments, shelfDepthSegments);
+let shelfMaterial = new THREE.MeshStandardMaterial({ color: 0XD6C9BE });
+let shelf = new THREE.Mesh(shelfGeometry, shelfMaterial);
+shelf.position.set(0, shelfHeight / 2, 0);
+shelf.geometry.attributes.uv2 = shelf.geometry.attributes.uv;
+shelf.rotation.set(0, Math.PI / 2, 0);
+scene.add(shelf);
+
+let plankWidth = shelfWidth;
+let plankHeight = 7;
+let plankDepth = 0.2;
+let plankWidthSegments = 512;
+let plankHeightSegments = 512;
+let plankDepthSegments = 512;
+let plankGeometry = new THREE.BoxGeometry(plankWidth, plankHeight, plankDepth, plankWidthSegments, plankHeightSegments, plankDepthSegments);
+let plankMaterial = new THREE.MeshStandardMaterial({ color: 0XFFFFFF });
+
+let plank_1 = new THREE.Mesh(plankGeometry, plankMaterial);
+plank_1.rotation.set(Math.PI / 2, 0, Math.PI / 2);
+scene.add(plank_1)
+
+let plank_2 = new THREE.Mesh(plankGeometry, plankMaterial);
+plank_2.position.set(0, 4 * shelfHeight / 4, 0);
+plank_2.rotation.set(Math.PI / 2, 0, Math.PI / 2);
+scene.add(plank_2);
+
+let plank_3 = new THREE.Mesh(plankGeometry, plankMaterial);
+plank_3.position.set(0, 1 * shelfHeight / 4, 0);
+plank_3.rotation.set(Math.PI / 2, 0, Math.PI / 2);
+scene.add(plank_3);
+
+let plank_4 = new THREE.Mesh(plankGeometry, plankMaterial);
+plank_4.position.set(0, 2 * shelfHeight / 4, 0);
+plank_4.rotation.set(Math.PI / 2, 0, Math.PI / 2);
+scene.add(plank_4);
+
+let plank_5 = new THREE.Mesh(plankGeometry, plankMaterial);
+plank_5.position.set(0, 3 * shelfHeight / 4, 0);
+plank_5.rotation.set(Math.PI / 2, 0, Math.PI / 2);
+scene.add(plank_5);
+
+
+
+
 
 
 // Rendering the 3d space
