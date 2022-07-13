@@ -29,7 +29,7 @@ scene.add(ambientLight);
 
 // Directional light source
 let directionalLight = new THREE.DirectionalLight(0XFFFFFF, 1);
-directionalLight.position.set(-10, 10, 10);
+directionalLight.position.set(-50, 50, 50);
 scene.add(directionalLight);
 
 // Directional light helper
@@ -44,6 +44,7 @@ camera.position.set(1, 5, 5);
 orbit.update();
 
 // Textures of the ground
+const offset = 0.15;
 function getTexture(path, repeatX, repeatY) {
     let texture = textureLoader.load(path);
     texture.wrapS = THREE.RepeatWrapping;
@@ -131,6 +132,14 @@ wall_4.geometry.attributes.uv2 = wall_4.geometry.attributes.uv;
 wall_4.position.set(-groundWidth / 2 + wallDepth / 2, wallHeight / 2, 0);
 scene.add(wall_4);
 
+// Texture for the shelf
+let marbleBaseColor = getTexture("../textures/shelf/Marble_White_007_basecolor.jpg", groundWidth / 10, 1);
+let marbleNormalMap = getTexture("../textures/shelf/Marble_White_007_normal.jpg", groundWidth / 10, 1);
+let marbleHeightMap = getTexture("../textures/shelf/Marble_White_007_height.png", groundWidth / 10, 1);
+let marbleRoughnessMap = getTexture("../textures/shelf/Marble_White_007_roughness.jpg", groundWidth / 10, 1);
+let marbleAmbientOcclusionMap = getTexture("../textures/shelf/Marble_White_007_ambientOcclusion.jpg", groundWidth / 10, 1);
+
+
 // Shelf
 let shelfWidth = groundHeight / 2;
 let shelfHeight = 10;
@@ -139,9 +148,17 @@ let shelfWidthSegments = 1;
 let shelfHeightSegments = 1;
 let shelfDepthSegments = 1;
 let shelfGeometry = new THREE.BoxGeometry(shelfWidth, shelfHeight, shelfDepth, shelfWidthSegments, shelfHeightSegments, shelfDepthSegments);
-let shelfMaterial = new THREE.MeshStandardMaterial({ color: 0XD6C9BE });
+let shelfMaterial = new THREE.MeshStandardMaterial({
+    color: 0XD6C9BE,
+    map: marbleBaseColor,
+    displacementMap: marbelHeightMap,
+    displacementScale: 0.01,
+    roughnessMap: marbelRoughnessMap,
+    roughness: 0.1,
+    aoMap: marbelAmbientOcclusionMap
+});
 let shelf = new THREE.Mesh(shelfGeometry, shelfMaterial);
-shelf.position.set(0, shelfHeight / 2, 0);
+shelf.position.set(0, shelfHeight / 2 + offset, 0);
 shelf.geometry.attributes.uv2 = shelf.geometry.attributes.uv;
 shelf.rotation.set(0, Math.PI / 2, 0);
 scene.add(shelf);
@@ -153,29 +170,43 @@ let plankWidthSegments = 1;
 let plankHeightSegments = 1;
 let plankDepthSegments = 1;
 let plankGeometry = new THREE.BoxGeometry(plankWidth, plankHeight, plankDepth, plankWidthSegments, plankHeightSegments, plankDepthSegments);
-let plankMaterial = new THREE.MeshStandardMaterial({ color: 0XFFFFFF });
+let plankMaterial = new THREE.MeshStandardMaterial({
+    color: 0XFFFFFF,
+    map: marbleBaseColor,
+    displacementMap: marbelHeightMap,
+    displacementScale: 0.01,
+    roughnessMap: marbelRoughnessMap,
+    roughness: 0.1,
+    aoMap: marbelAmbientOcclusionMap
+});
 
 let plank_1 = new THREE.Mesh(plankGeometry, plankMaterial);
+plank_1.geometry.attributes.uv2 = plank_1.geometry.attributes.uv;
+plank_1.position.set(0, offset, 0);
 plank_1.rotation.set(Math.PI / 2, 0, Math.PI / 2);
 scene.add(plank_1)
 
 let plank_2 = new THREE.Mesh(plankGeometry, plankMaterial);
-plank_2.position.set(0, 4 * shelfHeight / 4, 0);
+plank_2.geometry.attributes.uv2 = plank_1.geometry.attributes.uv;
+plank_2.position.set(0, 4 * shelfHeight / 4 + offset, 0);
 plank_2.rotation.set(Math.PI / 2, 0, Math.PI / 2);
 scene.add(plank_2);
 
 let plank_3 = new THREE.Mesh(plankGeometry, plankMaterial);
-plank_3.position.set(0, 1 * shelfHeight / 4, 0);
+plank_3.geometry.attributes.uv2 = plank_1.geometry.attributes.uv;
+plank_3.position.set(0, 1 * shelfHeight / 4 + offset, 0);
 plank_3.rotation.set(Math.PI / 2, 0, Math.PI / 2);
 scene.add(plank_3);
 
 let plank_4 = new THREE.Mesh(plankGeometry, plankMaterial);
-plank_4.position.set(0, 2 * shelfHeight / 4, 0);
+plank_4.geometry.attributes.uv2 = plank_1.geometry.attributes.uv;
+plank_4.position.set(0, 2 * shelfHeight / 4 + offset, 0);
 plank_4.rotation.set(Math.PI / 2, 0, Math.PI / 2);
 scene.add(plank_4);
 
 let plank_5 = new THREE.Mesh(plankGeometry, plankMaterial);
-plank_5.position.set(0, 3 * shelfHeight / 4, 0);
+plank_5.geometry.attributes.uv2 = plank_1.geometry.attributes.uv;
+plank_5.position.set(0, 3 * shelfHeight / 4 + offset, 0);
 plank_5.rotation.set(Math.PI / 2, 0, Math.PI / 2);
 scene.add(plank_5);
 
@@ -186,6 +217,7 @@ function createWallPlank(configuration) {
     wallPlank.geometry = new THREE.BoxGeometry(configuration.width, configuration.height, configuration.depth, configuration.widthSegment, configuration.heightSegment, configuration.depthSegment);
     wallPlank.rotation.set(configuration.rotationX, configuration.rotationY, configuration.rotationZ);
     wallPlank.position.set(configuration.positionX, configuration.positionY, configuration.positionZ);
+    wallPlank.geometry.attributes.uv2 = wallPlank.geometry.attributes.uv;
     return wallPlank;
 }
 
@@ -200,8 +232,8 @@ let config_1 = {
     rotationY: 0,
     rotationZ: 0,
     positionX: 0,
-    positionY: 0,
-    positionZ: -groundHeight / 2 + plankHeight / 2
+    positionY: offset,
+    positionZ: -groundHeight / 2 + plankHeight / 2 + offset
 };
 
 for (let i = 0; i < 5; i++) {
@@ -219,8 +251,8 @@ let config_2 = {
     rotationX: Math.PI / 2,
     rotationY: 0,
     rotationZ: Math.PI / 2,
-    positionX: groundWidth / 2 - plankHeight / 2,
-    positionY: 0,
+    positionX: groundWidth / 2 - plankHeight / 2 - offset,
+    positionY: offset,
     positionZ: -groundHeight / 2 + (groundHeight - 50) / 2,
 }
 
@@ -229,8 +261,8 @@ for (let i = 0; i < 5; i++) {
     config_2.positionY += shelfHeight / 4;
 }
 
-config_2.positionX = -groundWidth / 2 + plankHeight / 2;
-config_2.positionY = 0;
+config_2.positionX = -groundWidth / 2 + plankHeight / 2 + offset;
+config_2.positionY = offset;
 
 for (let i = 0; i < 5; i++) {
     scene.add(createWallPlank(config_2));
@@ -240,14 +272,23 @@ for (let i = 0; i < 5; i++) {
 // Checkout counter
 let counterWidth = 50;
 let counterHeight = 7;
-let counterDepth = 10;
+let counterDepth = 15;
 let counterWidthSegment = 1;
 let counterHeightSegment = 1;
 let counterDepthSegment = 1;
 let counterGeometery = new THREE.BoxGeometry(counterWidth, counterHeight, counterDepth, counterWidthSegment, counterHeightSegment, counterDepthSegment);
-let counterMaterial = new THREE.MeshStandardMaterial({ color: 0XFFFFFF });
+let counterMaterial = new THREE.MeshStandardMaterial({
+    color: 0XFFFFFF,
+    map: marbleBaseColor,
+    displacementMap: marbelHeightMap,
+    displacementScale: 0.01,
+    roughnessMap: marbelRoughnessMap,
+    roughness: 0.1,
+    aoMap: marbelAmbientOcclusionMap
+});
 let counter = new THREE.Mesh(counterGeometery, counterMaterial);
-counter.position.set(0, counterHeight / 2, groundHeight / 2 - counterDepth / 2);
+counter.geometry.attributes.uv2 = counter.geometry.attributes.uv;
+counter.position.set(0, counterHeight / 2 + offset, groundHeight / 2 - counterDepth / 2 - offset);
 scene.add(counter);
 
 
