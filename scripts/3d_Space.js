@@ -70,8 +70,8 @@ marbelAmbientOcclusionMap.wrapT = THREE.RepeatWrapping;
 marbelAmbientOcclusionMap.repeat.set(5, 5);
 
 // Ground of the mall
-let groundHeight = 200;
-let groundWidth = 200;
+let groundHeight = 150;
+let groundWidth = 100;
 let widthSegment = 512;
 let heightSegment = 512;
 let groundGeometry = new THREE.PlaneGeometry(groundWidth, groundHeight, widthSegment, heightSegment);
@@ -166,9 +166,9 @@ scene.add(wall_4);
 let shelfWidth = groundHeight / 2;
 let shelfHeight = 10;
 let shelfDepth = 0.2;
-let shelfWidthSegments = 512;
-let shelfHeightSegments = 512;
-let shelfDepthSegments = 512;
+let shelfWidthSegments = 1;
+let shelfHeightSegments = 1;
+let shelfDepthSegments = 1;
 let shelfGeometry = new THREE.BoxGeometry(shelfWidth, shelfHeight, shelfDepth, shelfWidthSegments, shelfHeightSegments, shelfDepthSegments);
 let shelfMaterial = new THREE.MeshStandardMaterial({ color: 0XD6C9BE });
 let shelf = new THREE.Mesh(shelfGeometry, shelfMaterial);
@@ -180,9 +180,9 @@ scene.add(shelf);
 let plankWidth = shelfWidth;
 let plankHeight = 7;
 let plankDepth = 0.2;
-let plankWidthSegments = 512;
-let plankHeightSegments = 512;
-let plankDepthSegments = 512;
+let plankWidthSegments = 1;
+let plankHeightSegments = 1;
+let plankDepthSegments = 1;
 let plankGeometry = new THREE.BoxGeometry(plankWidth, plankHeight, plankDepth, plankWidthSegments, plankHeightSegments, plankDepthSegments);
 let plankMaterial = new THREE.MeshStandardMaterial({ color: 0XFFFFFF });
 
@@ -210,9 +210,76 @@ plank_5.position.set(0, 3 * shelfHeight / 4, 0);
 plank_5.rotation.set(Math.PI / 2, 0, Math.PI / 2);
 scene.add(plank_5);
 
+// Planks on the boundary wall
+function createWallPlank(configuration) {
+    let wallPlank = new THREE.Mesh(plankGeometry, plankMaterial);
+    wallPlank.geometry.dispose();
+    wallPlank.geometry = new THREE.BoxGeometry(configuration.width, configuration.height, configuration.depth, configuration.widthSegment, configuration.heightSegment, configuration.depthSegment);
+    wallPlank.rotation.set(configuration.rotationX, configuration.rotationY, configuration.rotationZ);
+    wallPlank.position.set(configuration.positionX, configuration.positionY, configuration.positionZ);
+    return wallPlank;
+}
 
+let config_1 = {
+    width: groundWidth,
+    height: plankHeight,
+    depth: plankDepth,
+    widthSegment: plankWidthSegments,
+    heightSegment: plankHeightSegments,
+    depthSegment: plankDepthSegments,
+    rotationX: Math.PI / 2,
+    rotationY: 0,
+    rotationZ: 0,
+    positionX: 0,
+    positionY: 0,
+    positionZ: -groundHeight / 2 + plankHeight / 2
+};
 
+for (let i = 0; i < 5; i++) {
+    scene.add(createWallPlank(config_1));
+    config_1.positionY += shelfHeight / 4;
+}
 
+let config_2 = {
+    width: groundHeight - 50,
+    height: plankHeight,
+    depth: plankDepth,
+    widthSegment: plankWidthSegments,
+    heightSegment: plankHeightSegments,
+    depthSegment: plankDepthSegments,
+    rotationX: Math.PI / 2,
+    rotationY: 0,
+    rotationZ: Math.PI / 2,
+    positionX: groundWidth / 2 - plankHeight / 2,
+    positionY: 0,
+    positionZ: -groundHeight / 2 + (groundHeight - 50) / 2,
+}
+
+for (let i = 0; i < 5; i++) {
+    scene.add(createWallPlank(config_2));
+    config_2.positionY += shelfHeight / 4;
+}
+
+config_2.positionX = -groundWidth / 2 + plankHeight / 2;
+config_2.positionY = 0;
+
+for (let i = 0; i < 5; i++) {
+    scene.add(createWallPlank(config_2));
+    config_2.positionY += shelfHeight / 4;
+}
+
+// Checkout counter
+let counterWidth = 50;
+let counterHeight = 7;
+let counterDepth = 10;
+let counterWidthSegment = 1;
+let counterHeightSegment = 1;
+let counterDepthSegment = 1;
+let counterGeometery = new THREE.BoxGeometry(counterWidth, counterHeight, counterDepth, counterWidthSegment, counterHeightSegment, counterDepthSegment);
+let counterMaterial = new THREE.MeshStandardMaterial({ color: 0XFFFFFF });
+let counter = new THREE.Mesh(counterGeometery, counterMaterial);
+counter.position.set(0, counterHeight / 2, groundHeight / 2 - counterDepth / 2);
+scene.add(counter);
 
 
 // Rendering the 3d space
