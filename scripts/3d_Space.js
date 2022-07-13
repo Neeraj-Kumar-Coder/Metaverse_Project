@@ -44,30 +44,18 @@ camera.position.set(1, 5, 5);
 orbit.update();
 
 // Textures of the ground
-let marbelBaseColor = textureLoader.load("../textures/ground/Wood_Floor_012_basecolor.jpg");
-marbelBaseColor.wrapS = THREE.RepeatWrapping;
-marbelBaseColor.wrapT = THREE.RepeatWrapping;
-marbelBaseColor.repeat.set(5, 5);
-
-let marbelNormalMap = textureLoader.load("../textures/ground/Wood_Floor_012_normal.jpg");
-marbelNormalMap.wrapS = THREE.RepeatWrapping;
-marbelNormalMap.wrapT = THREE.RepeatWrapping;
-marbelNormalMap.repeat.set(5, 5);
-
-let marbelHeightMap = textureLoader.load("../textures/ground/Wood_Floor_012_height.png");
-marbelHeightMap.wrapS = THREE.RepeatWrapping;
-marbelHeightMap.wrapT = THREE.RepeatWrapping;
-marbelHeightMap.repeat.set(5, 5);
-
-let marbelRoughnessMap = textureLoader.load("../textures/ground/Wood_Floor_012_roughness.jpg");
-marbelRoughnessMap.wrapS = THREE.RepeatWrapping;
-marbelRoughnessMap.wrapT = THREE.RepeatWrapping;
-marbelRoughnessMap.repeat.set(5, 5);
-
-let marbelAmbientOcclusionMap = textureLoader.load("../textures/ground/Wood_Floor_012_ambientOcclusion.jpg");
-marbelAmbientOcclusionMap.wrapS = THREE.RepeatWrapping;
-marbelAmbientOcclusionMap.wrapT = THREE.RepeatWrapping;
-marbelAmbientOcclusionMap.repeat.set(5, 5);
+function getTexture(path, repeatX, repeatY) {
+    let texture = textureLoader.load(path);
+    texture.wrapS = THREE.RepeatWrapping;
+    texture.wrapT = THREE.RepeatWrapping;
+    texture.repeat.set(repeatX, repeatY);
+    return texture;
+}
+let marbelBaseColor = getTexture("../textures/ground/Wood_Floor_012_basecolor.jpg", 5, 5);
+let marbelNormalMap = getTexture("../textures/ground/Wood_Floor_012_normal.jpg", 5, 5);
+let marbelHeightMap = getTexture("../textures/ground/Wood_Floor_012_height.png", 5, 5);
+let marbelRoughnessMap = getTexture("../textures/ground/Wood_Floor_012_roughness.jpg", 5, 5);
+let marbelAmbientOcclusionMap = getTexture("../textures/ground/Wood_Floor_012_ambientOcclusion.jpg", 5, 5);
 
 // Ground of the mall
 let groundHeight = 150;
@@ -91,35 +79,16 @@ ground.rotation.x = Math.PI / 2;
 scene.add(ground);
 
 // Texture of the wall
-let tileBaseColor = textureLoader.load("../textures/wall/Wood_Wall_003_basecolor.jpg");
-tileBaseColor.wrapS = THREE.RepeatWrapping;
-tileBaseColor.wrapT = THREE.RepeatWrapping;
-tileBaseColor.repeat.set(groundWidth / 10, 1);
-
-let tileNormalMap = textureLoader.load("../textures/wall/Wood_Wall_003_normal.jpg");
-tileNormalMap.wrapS = THREE.RepeatWrapping;
-tileNormalMap.wrapT = THREE.RepeatWrapping;
-tileNormalMap.repeat.set(groundWidth / 10, 1);
-
-let tileHeightMap = textureLoader.load("../textures/wall/Wood_Wall_003_height.png");
-tileHeightMap.wrapS = THREE.RepeatWrapping;
-tileHeightMap.wrapT = THREE.RepeatWrapping;
-tileHeightMap.repeat.set(groundWidth / 10, 1);
-
-let tileRoughnessMap = textureLoader.load("../textures/wall/Wood_Wall_003_roughness.jpg");
-tileRoughnessMap.wrapS = THREE.RepeatWrapping;
-tileRoughnessMap.wrapT = THREE.RepeatWrapping;
-tileRoughnessMap.repeat.set(groundWidth / 10, 1);
-
-let tileAmbientOcclusionMap = textureLoader.load("../textures/wall/Wood_Wall_003_ambientOcclusion.jpg");
-tileAmbientOcclusionMap.wrapS = THREE.RepeatWrapping;
-tileAmbientOcclusionMap.wrapT = THREE.RepeatWrapping;
-tileAmbientOcclusionMap.repeat.set(groundWidth / 10, 1);
+let tileBaseColor = getTexture("../textures/wall/Wood_Wall_003_basecolor.jpg", groundWidth / 10, 1);
+let tileNormalMap = getTexture("../textures/wall/Wood_Wall_003_normal.jpg", groundWidth / 10, 1);
+let tileHeightMap = getTexture("../textures/wall/Wood_Wall_003_height.png", groundWidth / 10, 1);
+let tileRoughnessMap = getTexture("../textures/wall/Wood_Wall_003_roughness.jpg", groundWidth / 10, 1);
+let tileAmbientOcclusionMap = getTexture("../textures/wall/Wood_Wall_003_ambientOcclusion.jpg", groundWidth / 10, 1);
 
 // Wall of the mall
 let wallWidth = groundWidth;
 let wallHeight = 15;
-let wallDepth = 1;
+let wallDepth = 3;
 let wallWidthSegment = 512;
 let wallHeightSegment = 512;
 let wallDepthSegment = 512;
