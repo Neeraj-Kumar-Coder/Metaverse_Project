@@ -88,7 +88,7 @@ let tileAmbientOcclusionMap = getTexture("../textures/wall/Wood_Wall_003_ambient
 
 // Wall of the mall
 let wallWidth = groundWidth;
-let wallHeight = 15;
+let wallHeight = 30;
 let wallDepth = 3;
 let wallWidthSegment = 512;
 let wallHeightSegment = 512;
@@ -288,7 +288,7 @@ let counterMaterial = new THREE.MeshStandardMaterial({
 });
 let counter = new THREE.Mesh(counterGeometery, counterMaterial);
 counter.geometry.attributes.uv2 = counter.geometry.attributes.uv;
-counter.position.set(0, counterHeight / 2 + offset, groundHeight / 2 - counterDepth / 2 - offset);
+counter.position.set(-groundWidth / 2 + counterWidth / 2 + offset, counterHeight / 2 + offset, groundHeight / 2 - counterDepth / 2 - offset);
 scene.add(counter);
 
 
